@@ -1,6 +1,6 @@
 package modelos;
 
-public class BubbleSort implements Sort {
+public class BubbleSort implements ISort {
 
     private final String[] vetor;
 

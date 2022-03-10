@@ -1,6 +1,6 @@
 package modelos;
 
-public class MergeSort implements Sort {
+public class MergeSort implements ISort {
 
     private final String[] array;
 
@@ -15,7 +15,7 @@ public class MergeSort implements Sort {
 
     private void mergeSort(String[] array) {
         int arraySize = array.length;
-        if (0 < (array.length - 1)) {
+        if (0 < (arraySize - 1)) {
             int metade = arraySize / 2;
             String[] left = new String[metade];
             String[] right = new String[arraySize - metade];
