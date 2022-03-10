@@ -2,8 +2,7 @@ package main;
 
 import dal.DataFiles;
 import fabrica.FabricaSort;
-import modelos.MergeSort;
-import modelos.Sort;
+import modelos.ISort;
 
 import java.util.Scanner;
 
@@ -13,9 +12,10 @@ public class Main {
         try {
             DataFiles dictionary = new DataFiles("./src/main/resources/Portugues(pt_BR).txt");
             String[] array = dictionary.lerAquivo();
-            Sort sortMethod = FabricaSort.getSort(getOpcaoMenuSort(), array);
+            ISort sortMethod = FabricaSort.getSort(getOpcaoMenuSort(), array);
 
             long tempo = System.currentTimeMillis();
+            printProgressBar();
             sortMethod.sort();
             System.out.println("Tempo: " + (System.currentTimeMillis() - tempo) + " ms.");
 
@@ -26,6 +26,8 @@ public class Main {
             System.out.println(e.getMessage());
         }
     }
+
+
 
     private static String getOpcaoMenuSort() {
         Scanner input = new Scanner(System.in);
@@ -61,4 +63,11 @@ public class Main {
 
     }
 
+    private static void printProgressBar() {
+        while (true) {
+            System.out.print("|");
+            System.out.print("/");
+            System.out.print("\\");
+        }
+    }
 }

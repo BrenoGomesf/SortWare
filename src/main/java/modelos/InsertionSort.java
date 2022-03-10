@@ -1,6 +1,6 @@
 package modelos;
 
-public class InsertionSort implements Sort {
+public class InsertionSort implements ISort {
 
     private final String[] array;
 

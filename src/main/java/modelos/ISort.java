@@ -1,5 +1,5 @@
 package modelos;
 
-public interface Sort {
+public interface ISort {
     void sort();
 }
