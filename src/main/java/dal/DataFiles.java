@@ -7,7 +7,7 @@ public class DataFiles {
     private File file = null;
 
     public DataFiles(String path) throws IllegalArgumentException {
-        if (path.isBlank() || path.isBlank()) throw new IllegalArgumentException();
+        if (path.isBlank() || path.isEmpty()) throw new IllegalArgumentException();
         file = new File(path);
     }
 
