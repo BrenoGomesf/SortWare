@@ -23,16 +23,19 @@ public class QuickSort implements ISort {
 
     private int partition(String[] array, int inicio, int fim) {
         String pivo = array[inicio];
-        int esquerda = inicio, direita = fim;
+        int esquerda = inicio + 1, direita = fim;
         while (esquerda < direita) {
-            while (esquerda <= fim && array[esquerda].length() <= pivo.length()) {
+            while (esquerda <= direita && array[esquerda].length() <= pivo.length()) {
                 esquerda++;
             }
-            while (direita > 0 && array[direita].length() > pivo.length()) {
+            while (direita > esquerda && array[direita].length() >= pivo.length()) {
                 direita--;
             }
-            if (esquerda < direita)
+            if (esquerda < direita) {
                 swap(array[esquerda], array[direita]);
+                direita--;
+                esquerda++;
+            }
         }
         array[inicio] = array[direita];
         array[direita] = pivo;

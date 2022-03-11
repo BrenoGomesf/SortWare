@@ -11,9 +11,11 @@ public class Spinner  extends Thread {
         String anim= "|/-\\";
         int x = 0;
         while (showProgress) {
-            System.out.print("\r Processing " + anim.charAt(x++ % anim.length()));
+            System.out.print("\r Processando " + anim.charAt(x++ % anim.length()));
             try { Thread.sleep(100); }
-            catch (Exception e) {};
+            catch (Exception erro) {
+                System.out.println(erro.getMessage());
+            };
         }
     }
 }
