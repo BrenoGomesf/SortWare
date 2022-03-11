@@ -1,23 +1,16 @@
 package fabrica;
 
-
-import modelos.BubbleSort;
-import modelos.InsertionSort;
-import modelos.ISort;
-import modelos.MergeSort;
+import modelos.*;
 
 public class FabricaSort {
-
-    private enum Sorts {
-        BUBBLESORT, MERGESORT, INSERTIONSORT;
-    }
-
     public static ISort getSort(String sort, String[] array) {
         Sorts name = Sorts.valueOf(sort.toUpperCase());
         return switch (name) {
             case BUBBLESORT -> new BubbleSort(array);
             case MERGESORT -> new MergeSort(array);
             case INSERTIONSORT -> new InsertionSort(array);
+            case QUICKSORT -> new QuickSort(array);
+            default -> throw new IllegalStateException("Unexpected value: " + name);
         };
     }
 }
