@@ -3,6 +3,10 @@ package fabrica;
 import modelos.*;
 
 public class FabricaSort {
+    private enum Sorts {
+        BUBBLESORT, MERGESORT, INSERTIONSORT, QUICKSORT;
+    }
+
     public static ISort getSort(String sort, String[] array) {
         Sorts name = Sorts.valueOf(sort.toUpperCase());
         return switch (name) {
@@ -10,7 +14,6 @@ public class FabricaSort {
             case MERGESORT -> new MergeSort(array);
             case INSERTIONSORT -> new InsertionSort(array);
             case QUICKSORT -> new QuickSort(array);
-            default -> throw new IllegalStateException("Unexpected value: " + name);
         };
     }
 }

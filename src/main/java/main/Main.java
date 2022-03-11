@@ -7,11 +7,14 @@ import dal.DataFiles;
 import fabrica.FabricaSort;
 import modelos.ISort;
 import modelos.SearchAlgorithms;
-import modelos.Sorts;
 
 import java.util.Scanner;
 
 public class Main {
+
+    public enum Sorts {
+        BUBBLESORT, MERGESORT, INSERTIONSORT, QUICKSORT, All;
+    }
 
     private static Scanner input = new Scanner(System.in);
     private static String dictionaryPath = "";
@@ -23,19 +26,10 @@ public class Main {
             getIdioma();
             DataFiles dictionary = new DataFiles(dictionaryPath);
             String[] array = dictionary.lerAquivo();
-            ISort algoritmo = FabricaSort.getSort(getOpcaoMenuSort().toString(), array);
+            AlgorithmsTest test = new AlgorithmsTest(array, getOpcaoMenuSort().toString());
 
-            Spinner spinner = new Spinner();
-
-            spinner.start();
-            long tempo = System.currentTimeMillis();
-            algoritmo.sort();
-            tempo = System.currentTimeMillis() - tempo;
-            spinner.setShowProgress(false);
-            System.out.println("\nTempo: " + tempo + " ms.");
-
-            SearchAlgorithms busca = new SearchAlgorithms();
-
+            test.testar();
+            System.out.println("\n" + test.getTime() + " ms.");
 
             DataFiles saida = new DataFiles("/home/hypper/Downloads/saida.txt");
             saida.salvarArquivo(array);
@@ -88,7 +82,7 @@ public class Main {
         System.out.println(op);
         int menu;
         do {
-            showMessageDialog("Informe o algoritmo na qual deseja testar:");
+            showMessageDialog("Informe o algoritmo na qual deseja testar: ");
             menu = input.nextInt();
         } while (menu != 1 && menu != 2 && menu != 3 && menu != 4 && menu != 5);
 
@@ -102,5 +96,7 @@ public class Main {
         };
 
     }
+
+
 
 }
