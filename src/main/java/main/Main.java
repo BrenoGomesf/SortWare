@@ -31,8 +31,19 @@ public class Main {
             test.testar();
             System.out.println("\n" + test.getTime() + " ms.");
 
+            SearchAlgorithms busca = new SearchAlgorithms();
+
             DataFiles saida = new DataFiles("/home/hypper/Downloads/saida.txt");
             saida.salvarArquivo(array);
+
+            int index;
+
+            long time = System.currentTimeMillis();
+            index = busca.buscaBinaria(array, "juro");
+            time = System.currentTimeMillis() - time;
+            System.out.println(time + "ms. Elemento: " + index);
+            System.out.println(array[index]);
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
         } finally {
