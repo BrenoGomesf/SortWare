@@ -15,13 +15,29 @@ public class QuickSort implements ISort {
 
     private void quickSort(String[] array, int inicio, int fim) {
         if (inicio < fim) {
-            int pivo = partition(array, inicio, fim);
+            int pivo = partitionLomuto(array, inicio, fim);
             quickSort(array,inicio, (pivo - 1));
             quickSort(array, (pivo + 1), fim);
         }
     }
 
-    private int partition(String[] array, int inicio, int fim) {
+    // Paricionamento de Lomuto
+    private int partitionLomuto(String[] array, int inicio, int fim) {
+        String pivo = array[inicio];
+        int i = inicio;
+
+        for (int j = inicio + 1; j <= fim; j++) {
+            if (array[j].length() <= pivo.length()) {
+                i++;
+                swap(array, i, j);
+            }
+        }
+        swap(array, inicio, i);
+        return i;
+    }
+
+    // Particiona de Hoare !!! NÃO TESTADO !!!
+    private int partitionHoare(String[] array, int inicio, int fim) {
         String pivo = array[inicio];
         int esquerda = inicio + 1, direita = fim;
         while (esquerda < direita) {
@@ -32,7 +48,7 @@ public class QuickSort implements ISort {
                 direita--;
             }
             if (esquerda < direita) {
-                swap(array[esquerda], array[direita]);
+                swap(array, esquerda, direita);
                 direita--;
                 esquerda++;
             }
@@ -42,9 +58,9 @@ public class QuickSort implements ISort {
         return direita;
     }
 
-    private void swap(String a, String b) {
-        String aux = a;
-        a = b;
-        b = aux;
+    private void swap(String[] array, int a, int b) {
+        String aux = array[a];
+        array[a] = array[b];
+        array[b] = aux;
     }
 }

@@ -36,6 +36,11 @@ public class Main {
             DataFiles saida = new DataFiles("/home/hypper/Downloads/saida.txt");
             saida.salvarArquivo(array);
 
+
+            for (String text : array) {
+                System.out.println(text);
+            }
+
             int index;
 
             long time = System.currentTimeMillis();
