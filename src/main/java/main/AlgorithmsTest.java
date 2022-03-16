@@ -7,6 +7,8 @@ public class AlgorithmsTest {
 
     private final String algoritmo;
     private Long time;
+    private float tempoMin;
+    private float tempoSeg;
     private final String[] array;
 
     public AlgorithmsTest(String[] array, String algoritmo) {
@@ -24,6 +26,8 @@ public class AlgorithmsTest {
             aux.sort();
             time = System.currentTimeMillis() - time;
             spinner.setShowProgress(false);
+            tempoMin = ((time/1000)/60);
+            tempoSeg = (time / 1000 / 60) % 60;
         } finally {
             spinner.setShowProgress(false);
         }
@@ -31,5 +35,13 @@ public class AlgorithmsTest {
 
     public Long getTime() {
         return time;
+    }
+
+    public float getTempoMin(){
+        return tempoMin;
+    }
+
+    public float getTempoSeg(){
+        return tempoSeg;
     }
 }

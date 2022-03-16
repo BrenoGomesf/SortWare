@@ -35,6 +35,7 @@ public class Main {
                     test = new AlgorithmsTest(array,sort.toString());
                     test.testar();
                     System.out.println("\n" + test.getTime() + " ms.");
+                    System.out.println("\n" + test.getTempoMin() + " minutos e " + test.getTempoSeg() + " segundos.");
                 } else {
                     for (Sorts aux : Sorts.values()) {
                         if (!aux.equals(Sorts.All)) {
@@ -42,6 +43,7 @@ public class Main {
                             test = new AlgorithmsTest(array, aux.toString());
                             test.testar();
                             System.out.println("\n" + test.getTime() + " ms.");
+                            System.out.println("\n" + test.getTempoMin() + " minutos e " + test.getTempoSeg() + " segundos.");
                         }
                     }
                 }
