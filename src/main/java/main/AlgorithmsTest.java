@@ -14,14 +14,19 @@ public class AlgorithmsTest {
         this.array = array;
     }
 
-    public void testar() {
-        ISort aux = FabricaSort.getSort(algoritmo, array);
+    public void testar() throws Exception {
         Spinner spinner = new Spinner();
-        spinner.start();
-        time = System.currentTimeMillis();
-        aux.sort();
-        time = System.currentTimeMillis() - time;
-        spinner.setShowProgress(false);
+        try {
+            ISort aux = FabricaSort.getSort(algoritmo, array);
+            System.out.println("Testando o " + algoritmo);
+            spinner.start();
+            time = System.currentTimeMillis();
+            aux.sort();
+            time = System.currentTimeMillis() - time;
+            spinner.setShowProgress(false);
+        } finally {
+            spinner.setShowProgress(false);
+        }
     }
 
     public Long getTime() {
