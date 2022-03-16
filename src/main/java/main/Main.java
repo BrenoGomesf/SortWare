@@ -30,6 +30,7 @@ public class Main {
 
             test.testar();
             System.out.println("\n" + test.getTime() + " ms.");
+            System.out.println("\n" + test.getTempoMin() + " minutos e " + test.getTempoSeg() + " segundos.");
 
             SearchAlgorithms busca = new SearchAlgorithms();
 
