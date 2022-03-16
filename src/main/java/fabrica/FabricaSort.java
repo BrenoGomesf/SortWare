@@ -4,7 +4,7 @@ import modelos.*;
 
 public class FabricaSort {
     private enum Sorts {
-        BUBBLESORT, MERGESORT, INSERTIONSORT, QUICKSORT;
+        BUBBLESORT, MERGESORT, INSERTIONSORT, QUICKSORT
     }
 
     public static ISort getSort(String sort, String[] array) {
