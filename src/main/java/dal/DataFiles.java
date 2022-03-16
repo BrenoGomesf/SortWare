@@ -1,6 +1,7 @@
 package dal;
 
 import java.io.*;
+import java.util.ArrayList;
 
 public class DataFiles {
 
@@ -11,7 +12,7 @@ public class DataFiles {
         file = new File(path);
     }
 
-    public String[] lerAquivo() throws Exception {
+    public String[] lerAquivoDic() throws Exception {
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             int i = 0;
             String[] words = new String[Integer.parseInt(br.readLine())];
@@ -21,6 +22,17 @@ public class DataFiles {
                 i++;
             }
 
+            return words;
+        }
+    }
+
+    public ArrayList<String> lerAquivo() throws Exception {
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            ArrayList<String> words = new ArrayList<>();
+            String word;
+            while ((word = br.readLine()) != null) {
+                words.add(word);
+            }
             return words;
         }
     }

@@ -8,6 +8,8 @@ import fabrica.FabricaSort;
 import modelos.ISort;
 import modelos.SearchAlgorithms;
 
+import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class Main {
@@ -23,31 +25,37 @@ public class Main {
         System.out.println("SortWare - teste de algoritmos de ordenação\n");
 
         try {
-            getIdioma();
-            DataFiles dictionary = new DataFiles(dictionaryPath);
-            String[] array = dictionary.lerAquivo();
-            AlgorithmsTest test = new AlgorithmsTest(array, getOpcaoMenuSort().toString());
+            do {
+                getIdioma();
+                DataFiles dictionary = new DataFiles(dictionaryPath);
+                String[] array = dictionary.lerAquivoDic();
+                Sorts sort = getOpcaoMenuSort();
+                AlgorithmsTest test;
+                if (!sort.equals(Sorts.All)) {
+                    test = new AlgorithmsTest(array,sort.toString());
+                    test.testar();
+                    System.out.println("\n" + test.getTime() + " ms.");
+                } else {
+                    for (Sorts aux : Sorts.values()) {
+                        if (!aux.equals(Sorts.All)) {
+                            array = dictionary.lerAquivoDic();
+                            test = new AlgorithmsTest(array, aux.toString());
+                            test.testar();
+                            System.out.println("\n" + test.getTime() + " ms.");
+                        }
+                    }
+                }
 
-            test.testar();
-            System.out.println("\n" + test.getTime() + " ms.");
+                DataFiles saida = new DataFiles("./src/main/resources/saida.txt");
+                saida.salvarArquivo(array);
 
-            SearchAlgorithms busca = new SearchAlgorithms();
-
-            DataFiles saida = new DataFiles("/home/hypper/Downloads/saida.txt");
-            saida.salvarArquivo(array);
-
-
-            for (String text : array) {
-                System.out.println(text);
-            }
-
-            int index;
-
-            long time = System.currentTimeMillis();
-            index = busca.buscaBinaria(array, "juro");
-            time = System.currentTimeMillis() - time;
-            System.out.println(time + "ms. Elemento: " + index);
-            System.out.println(array[index]);
+                ArrayList<String> arrayListSaida = saida.lerAquivo();
+                String[] output = new String[arrayListSaida.size()];
+                for (int i = 0; i < arrayListSaida.size(); i++) {
+                    output[i] = arrayListSaida.get(i);
+                }
+                buscarNoVetor(output);
+            } while (repetir());
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -55,6 +63,15 @@ public class Main {
             input.close();
         }
 
+    }
+
+    public static boolean repetir() {
+        char menu = ' ';
+        do {
+            showMessageDialog("Repetir o Testes: [s/n] ");
+            menu = input.next().toLowerCase().charAt(0);
+        } while (menu != 's' && menu != 'n');
+        return menu == 's';
     }
 
     private static void getIdioma() {
@@ -113,6 +130,40 @@ public class Main {
 
     }
 
+    public static void buscarNoVetor(String[] array) throws Exception{
+        showMessageDialog("Informe qual palavra deseja buscar: ");
+        String word = input.next();
+        String op = """
+                Algoritmos:
+                
+                [1] - Busca Binaria
+                [2] - Busca Sequencial
+                """;
+        System.out.println(op);
+        int menu;
+        do {
+            showMessageDialog("Informe o algoritmo na qual deseja testar: ");
+            menu = input.nextInt();
+        } while (menu != 1 && menu != 2);
 
+        SearchAlgorithms busca = new SearchAlgorithms();
+        int index = 0;
+        long time = 0;
+        switch (menu) {
+            case 1 -> {
+                time = System.currentTimeMillis();
+                index = busca.buscaBinaria(array, word);
+                time = System.currentTimeMillis() - time;
+            }
+            case 2 -> {
+                time = System.currentTimeMillis();
+                index = busca.buscaSequencial(array, word);
+                time = System.currentTimeMillis() - time;
+            }
+        }
+
+        System.out.println("Tempo: " + time + " ms.\nIndex do Elemento: " + index);
+        System.out.println("Elemento: " + array[index]);
+    }
 
 }
