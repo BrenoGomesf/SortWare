@@ -4,21 +4,19 @@ import com.diogonunes.jcolor.Ansi;
 import com.diogonunes.jcolor.AnsiFormat;
 import com.diogonunes.jcolor.Attribute;
 import dal.DataFiles;
-import fabrica.FabricaSort;
-import modelos.ISort;
-import modelos.SearchAlgorithms;
+import models.Search;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.Scanner;
 
 public class Main {
 
     public enum Sorts {
-        BUBBLESORT, MERGESORT, INSERTIONSORT, QUICKSORT, All;
+        BUBBLE, MERGE, INSERTION, QUICK, All;
     }
 
-    private static Scanner input = new Scanner(System.in);
+    private static final Scanner input = new Scanner(System.in);
     private static String dictionaryPath = "";
 
     public static void main(String[] args)  {
@@ -30,20 +28,21 @@ public class Main {
                 DataFiles dictionary = new DataFiles(dictionaryPath);
                 String[] array = dictionary.lerAquivoDic();
                 Sorts sort = getOpcaoMenuSort();
-                AlgorithmsTest test;
+                SortTest test;
                 if (!sort.equals(Sorts.All)) {
-                    test = new AlgorithmsTest(array,sort.toString());
-                    test.testar();
+                    test = new SortTest(array,sort.toString());
+                    test.test();
+                    System.out.println("\n" + formattedTime(test.getTime()));
                     System.out.println("\n" + test.getTime() + " ms.");
-                    System.out.println("\n" + test.getTempoMin() + " minutos e " + test.getTempoSeg() + " segundos.");
+
                 } else {
                     for (Sorts aux : Sorts.values()) {
                         if (!aux.equals(Sorts.All)) {
                             array = dictionary.lerAquivoDic();
-                            test = new AlgorithmsTest(array, aux.toString());
-                            test.testar();
+                            test = new SortTest(array, aux.toString());
+                            test.test();
+                            System.out.println("\n" + formattedTime(test.getTime()));
                             System.out.println("\n" + test.getTime() + " ms.");
-                            System.out.println("\n" + test.getTempoMin() + " minutos e " + test.getTempoSeg() + " segundos.");
                         }
                     }
                 }
@@ -56,7 +55,11 @@ public class Main {
                 for (int i = 0; i < arrayListSaida.size(); i++) {
                     output[i] = arrayListSaida.get(i);
                 }
-                buscarNoVetor(output);
+                try {
+                    buscarNoVetor(output);
+                } catch (Exception erro) {
+                    System.out.println(erro.getMessage());
+                }
             } while (repetir());
 
         } catch (Exception e) {
@@ -86,7 +89,7 @@ public class Main {
                 """);
         int menu;
         do {
-            showMessageDialog("Informe o idioma na qual deseja testar: ");
+            showMessageDialog("Informe o idioma na qual deseja test: ");
             menu = input.nextInt();
         } while (menu != 1 && menu != 2 && menu != 3);
 
@@ -117,15 +120,15 @@ public class Main {
         System.out.println(op);
         int menu;
         do {
-            showMessageDialog("Informe o algoritmo na qual deseja testar: ");
+            showMessageDialog("Informe o algoritmo na qual deseja test: ");
             menu = input.nextInt();
         } while (menu != 1 && menu != 2 && menu != 3 && menu != 4 && menu != 5);
 
         return switch (menu) {
-            case 1 -> Sorts.MERGESORT;
-            case 2 -> Sorts.QUICKSORT;
-            case 3 -> Sorts.INSERTIONSORT;
-            case 4 -> Sorts.BUBBLESORT;
+            case 1 -> Sorts.MERGE;
+            case 2 -> Sorts.QUICK;
+            case 3 -> Sorts.INSERTION;
+            case 4 -> Sorts.BUBBLE;
             case 5 -> Sorts.All;
             default -> throw new IllegalStateException("Unexpected value: " + menu);
         };
@@ -144,28 +147,40 @@ public class Main {
         System.out.println(op);
         int menu;
         do {
-            showMessageDialog("Informe o algoritmo na qual deseja testar: ");
+            showMessageDialog("Informe o algoritmo na qual deseja test: ");
             menu = input.nextInt();
         } while (menu != 1 && menu != 2);
 
-        SearchAlgorithms busca = new SearchAlgorithms();
+        Search busca = new Search(array);
         int index = 0;
         long time = 0;
         switch (menu) {
             case 1 -> {
                 time = System.currentTimeMillis();
-                index = busca.buscaBinaria(array, word);
+                index = busca.binary(word);
                 time = System.currentTimeMillis() - time;
             }
             case 2 -> {
                 time = System.currentTimeMillis();
-                index = busca.buscaSequencial(array, word);
+                index = busca.sequential(word);
                 time = System.currentTimeMillis() - time;
             }
         }
 
         System.out.println("Tempo: " + time + " ms.\nIndex do Elemento: " + index);
         System.out.println("Elemento: " + array[index]);
+    }
+
+    public static String formattedTime(Long time) {
+        DecimalFormat df = new DecimalFormat("#,##0.00");
+        if (time < 1000) {
+            return df.format(time) + " ms.";
+        } else if (time > 1000) {
+            int seconds = (int) (time / 1000);
+            int ms = (int) (time % 1000);
+            return df.format(seconds) + " segundos e " + df.format(ms) + " ms.";
+        }
+        return df.format(time);
     }
 
 }
