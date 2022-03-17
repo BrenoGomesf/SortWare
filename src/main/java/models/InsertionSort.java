@@ -1,11 +1,9 @@
-package modelos;
+package models;
 
-public class InsertionSort implements ISort {
-
-    private final String[] array;
+public class InsertionSort extends Sort {
 
     public InsertionSort(String[] array) {
-        this.array = array;
+        super(array);
     }
 
     @Override

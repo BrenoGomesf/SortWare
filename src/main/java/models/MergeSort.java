@@ -1,16 +1,14 @@
-package modelos;
+package models;
 
-public class MergeSort implements ISort {
-
-    private final String[] array;
+public class MergeSort extends Sort {
 
     public MergeSort(String[] array) {
-        this.array = array;
+        super(array);
     }
 
     @Override
     public void sort() {
-        mergeSort(this.array);
+        mergeSort(array);
     }
 
     private void mergeSort(String[] array) {

@@ -1,9 +1,14 @@
 plugins {
     id 'java'
+    id 'application'
+    id 'jacoco'
+    id "com.github.johnrengelman.shadow" version "7.1.0"
 }
 
 group 'org.example'
 version '1.0-SNAPSHOT'
+
+mainClassName = 'main.Main'
 
 repositories {
     mavenCentral()
