@@ -156,18 +156,29 @@ public class Main {
         long time = 0;
         switch (menu) {
             case 1 -> {
-                time = System.currentTimeMillis();
+                time = System.nanoTime();
                 index = busca.binary(word);
-                time = System.currentTimeMillis() - time;
+                time = System.nanoTime() - time;
             }
             case 2 -> {
-                time = System.currentTimeMillis();
+                time = System.nanoTime();
                 index = busca.sequential(word);
-                time = System.currentTimeMillis() - time;
+                time = System.nanoTime() - time;
             }
         }
 
-        System.out.println("Tempo: " + time + " ms.\nIndex do Elemento: " + index);
+        DecimalFormat df = new DecimalFormat("#,##0.00");
+        long micro = time / 1000;
+        String tempo = "";
+        if (micro < 1000) {
+            tempo = df.format(micro) + " microsegundos.";
+        } else {
+            long ms = micro / 1000;
+            tempo = df.format(ms) + " ms.";
+        }
+
+        System.out.println("Tempo em nanosegundos: " + time);
+        System.out.println("Tempo: " + tempo + "\nIndex do Elemento: " + index);
         System.out.println("Elemento: " + array[index]);
     }
 
@@ -178,7 +189,12 @@ public class Main {
         } else if (time > 1000) {
             int seconds = (int) (time / 1000);
             int ms = (int) (time % 1000);
-            return df.format(seconds) + " segundos e " + df.format(ms) + " ms.";
+            if (seconds > 60) {
+                int min = seconds / 60;
+                seconds = seconds % 60;
+                return df.format(min) + "min, " + df.format(seconds) + " segundos e " + df.format(ms) + " ms.";
+            } else
+                return df.format(seconds) + " segundos e " + df.format(ms) + " ms.";
         }
         return df.format(time);
     }
