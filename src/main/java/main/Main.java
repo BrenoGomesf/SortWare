@@ -21,6 +21,7 @@ public class Main {
 
     public static void main(String[] args)  {
         System.out.println("SortWare - teste de algoritmos de ordenação\n");
+        System.out.println("Mudança");
 
         try {
             do {
